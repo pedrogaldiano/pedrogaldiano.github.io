@@ -1,0 +1,118 @@
+<ul>
+<li><h1 id="o-que-é">O que é?</h1></li>
+</ul>
+<p><img src="res/media/image1.jpeg"
+style="width:3.96736in;height:2.26875in" />É um agregador de métricas em
+gráficos bonitinhos atualizados dinamicamente.</p>
+<p>Muito semelhante ao Power BI e ao Tableau, as principais diferenças
+entre eles são: o Grafana é open source, tem uma licença free mais
+branda e roda em Mac, Linux, Windows e Docker.</p>
+<ul>
+<li><h1 id="pra-que-serve">Pra que serve?</h1></li>
+</ul>
+<p>Bem, serve para criar dashboards (gráficos bonitinhos) de fácil
+leitura e acesso para que você possa acompanhar métricas, ser notificado
+quando algo “estranho” ocorre e ter insights sobre aquele conjunto de
+dados.</p>
+<ul>
+<li><h1 id="como-instalar">Como instalar?</h1></li>
+</ul>
+<p>Siga o tutorial no <a
+href="https://grafana.com/docs/grafana/latest/installation/">site do
+Grafana</a>. E use o http://localhost:3000 para acessar o Grafana. O
+login e senha padrão, são: admin e admin, respectivamente.</p>
+<p><img src="res/media/image2.png"
+style="width:3.28958in;height:1.77153in" /> No caso do macOS, sugiro
+instalar via brew e caso tenha um bug bem específico utilize os
+binários. Pelo brew é mais fácil para dar start, stop e restart.</p>
+<ul>
+<li><h1 id="como-instalar-plugins">Como instalar plugins?</h1></li>
+</ul>
+<p>O jeito mais óbvio e bugado (<a
+href="#então-vamos-do-jeito-mais-fácil...">pode pular para o jeito fácil
+se quiser</a>) é ao criar um banco de dados, ir bem lá em baixo e clicar
+em “<a
+href="https://grafana.com/plugins?type=datasource&amp;utm_source=grafana_add_ds">Find
+more data source plugins on grafana.com</a>”, para a maioria dos plugins
+isso vai funcionar o perfeitamente.</p>
+<p><img src="res/media/image3.png"
+style="width:1.28264in;height:1.70486in" />O problema é que alguns
+plugins possuem a tag “signed” e te obrigam a criar uma conta para
+instalá-los e, além de eu não gostar de criar contas, isso pode causar
+alguns bugs bem chatos.</p>
+<h2 id="então-vamos-do-jeito-mais-fácil...">Então, vamos do jeito mais
+fácil...</h2>
+<p>Do lado esquerdo da tela, existe um menu com alguns ícones, vá em
+configuration, plugins, encontre o plugin que você quiser, clique nele e
+instale.</p>
+<p>Caso o plugin não apareça automaticamente, basta reiniciar o Grafana,
+se você instalou via binários no macOS, vou deixar alguns <a
+href="#comandos-que-podem-te-ajudar-se-você-instalou-o-grafana-via-binários-no-macos">comandos
+que podem te ajudar</a> no <strong>fim do artigo (muito chique chamar de
+artigo) ...</strong></p>
+<ul>
+<li><h1 id="como-adicionar-um-banco-de-dados">Como adicionar um banco de
+dados?</h1></li>
+</ul>
+<blockquote>
+<p>Depois de logado no Grafana, vá em:</p>
+<p>Configuration &gt; Data Source &gt; Add Data Source</p>
+<p>Ou clique em Add Data Source na tela inicial</p>
+<p>Selecione a origem do banco de dados que você pretende utilizar,
+preencha as informações necessárias e pronto.</p>
+</blockquote>
+<ul>
+<li><h1 id="como-utilizar-arquivos-.csv-no-grafana">Como utilizar
+arquivos .CSV no Grafana?</h1></li>
+</ul>
+<p>Existe um plugin pra isso chamado <a
+href="https://grafana.com/grafana/plugins/marcusolsson-csv-datasource/">CSV</a>
+(super criativo) se você <strong><u>não pretende</u></strong> utilizar
+arquivos locais, pode utilizar um plugin chamado <a
+href="https://grafana.com/grafana/plugins/yesoreyeram-infinity-datasource/">Infinity</a>
+também. Bem, eu vou supor que você utilizou o jeito fácil de instalar
+plugins (por favor utilize o jeito fácil).</p>
+<p>Agora adicione um banco de dados (data source), tem um botão pra isso
+na tela inicial e no menu de configurações também. Lá, basta adicionar
+um novo banco, selecionar o plugin CSV, clicar em Local, colar o path do
+arquivo (/Users/cons718/Downloads/financial.csv) e clicar em “Save &amp;
+Test”. Agora você deve receber uma mensagem de sucesso, se receber um
+erro verifique se o path está correto.</p>
+<p>Caso você tente adicionar um dashboard agora, receberá um erro
+dizendo que <strong>você não pode acessar os arquivos locais sem
+autorização do administrador</strong>. Agora você precisa encontrar o
+grafana.ini e adicionar as linhas abaixo ou, se você utilizou binários,
+duplicar o default.ini, renomeá-lo para custom.ini e adicionar as linhas
+abaixo no custom.ini:</p>
+<p>[plugin.marcusolsson-csv-datasource]</p>
+<p>allow_local_mode = true</p>
+<p>No mac, você deve encontrar esse arquivo em:</p>
+<p>/opt/homebrew/etc/Grafana</p>
+<p>ou</p>
+<p>/Users/cons718/grafana-8.3.6</p>
+<p>Depois disso, basta reiniciar o Grafana, fechar e abrir o browser que
+o erro deve sumir.</p>
+<ul>
+<li><h1
+id="comandos-que-podem-te-ajudar-se-você-instalou-o-grafana-via-binários-no-macos">Comandos
+que podem te ajudar se você instalou o Grafana via binários no
+macOS</h1></li>
+</ul>
+<p>Vá até a pasta em que você colocou os binários, a pasta default é o
+seu usuário, se você abrir o terminal e digitar</p>
+<p>ls</p>
+<p>O terminal deve retornar uma lista das pastas no diretório, incluindo
+a pasta da Grafana. Entre no diretório da Grafana.</p>
+<p>cd grafana-8.3.6/</p>
+<p>Rode seguinte comando para iniciar o Grafana:</p>
+<p>./bin/grafana-server web</p>
+<p>O Grafana estará disponível em: <a
+href="http://localhost:3000"><u>http://localhost:3000</u></a></p>
+<p>Para parar o servidor basta apertar Control + C</p>
+<p>Caso você feche o terminal sem parar o servidor, utilize o comando a
+seguir para encontrar os servidores ativos na porta 3000.</p>
+<p>sudo lsof -i :3000</p>
+<p>Pegue o número do PID, e rode:</p>
+<p>kill -9 [número do PID]</p>
+<p>NOTA: Você precisa parar e iniciar o servidor sempre que instalar
+algum plugin ou fizer alguma alteração significativa.</p>
